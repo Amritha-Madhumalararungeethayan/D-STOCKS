@@ -1,6 +1,6 @@
 import User from "../model/user.js";
 import Stock from "../model/stock.js";
-import Holding from "../model/holding.js";
+import Holding from "../model/hold.js";
 import Trade from "../model/trade.js";
 
 export const buystock = async(req,res)=>{

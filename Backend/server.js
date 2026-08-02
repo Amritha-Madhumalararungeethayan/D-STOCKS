@@ -10,6 +10,7 @@ connectDB() ;
 import cron from "node-cron";
 import {Memes} from "./service/memes.js";
 import authRoutes from "./routes/auth.js";
+import tradeRoutes from "./routes/trade.js";
 import feedRoutes from "./routes/feed.js";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -53,6 +54,7 @@ app.use(express.static(__dirname +"/public"))
 app.use("/uploads",express.static("uploads"));
 app.use(cookieParser());
 app.use("/api/auth", authRoutes);
+app.use("/api", tradeRoutes);
 app.use("/api", authRoutes);
 app.use("/api", feedRoutes);
 

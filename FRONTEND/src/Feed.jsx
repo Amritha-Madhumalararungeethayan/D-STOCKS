@@ -4,68 +4,43 @@ import axios from "axios";
 export default function Feed() {
   const [stocks, setStocks] = useState([]);
   const [sort, setSort] = useState("trending");
+  const [qty, setQty] = useState({});
+
   useEffect(() => {
-    async function fetchFeed() {
-      try {
-        const res = await axios.get(`http://localhost:5000/api/feed?sort=${sort}`);
-        setStocks(res.data);
-      } catch (error) {
-        console.error("could not fetch feed", error);
-      }
-    }
-    fetchFeed();
+    axios.get(`http://localhost:5000/api/feed?sort=${sort}`).then(res => setStocks(res.data)).catch(err => console.log(err));
   }, [sort]);
 
-  return (
-    <div style={{ padding: "20px" }}>
-      <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
-        {["trending", "new", "rising"].map(option => (
-          <button
-            key={option}
-            onClick={() => setSort(option)}
-            style={{
-              padding: "8px 16px",
-              borderRadius: "6px",
-              border: "1px solid #ccc",
-              background: sort === option ? "#4bc0c0" : "transparent",
-              color: sort === option ? "#000" : "#fff",
-              cursor: "pointer",
-            }}
-          >
-            {option.charAt(0).toUpperCase() + option.slice(1)}
-          </button>
-        ))}
-      </div>
+  const trade = async (stockId, type) => {
+    try {
+      const res = await axios.post(`http://localhost:5000/api/trade/${type}`, {
+        stockId,
+        quantity: Number(qty[stockId]) || 0
+      }, { withCredentials: true });
+      alert(res.data.message + " | balance: " + res.data.balance);
+    } catch (err) {
+      alert(err.response?.data?.message || "trade failed");
+    }
+  };
 
-      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-        {stocks.map(stock => (
-          <div
-            key={stock._id}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "16px",
-              border: "1px solid #333",
-              borderRadius: "8px",
-              padding: "12px",
-            }}
-          >
-            <img
-              src={stock.image}
-              alt={stock.name}
-              style={{ width: "100px", borderRadius: "4px" }}
-            />
-            <div>
-              <h3>{stock.name}</h3>
-              <p>Ticker: {stock.ticker}</p>
-              <p>Price: {stock.currentPrice}</p>
-              {stock.change !== undefined && (
-                <p>Change: {(stock.change * 100).toFixed(1)}%</p>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
+  return (
+    <div style={{ padding: 20 }}>
+      <button onClick={() => setSort("trending")}>Trending</button>
+      <button onClick={() => setSort("new")}>New</button>
+      <button onClick={() => setSort("rising")}>Rising</button>
+      {stocks.map(stock => (
+        <div key={stock._id} style={{ border: "1px solid gray", margin: "10px 0", padding: 10 }}>
+          <img src={stock.image} width="100" />
+          <h3>{stock.name}</h3>
+          <p>{stock.currentPrice} coins</p>
+          <input
+            type="number"
+            placeholder="qty"
+            onChange={e => setQty({ ...qty, [stock._id]: e.target.value })}
+          />
+          <button onClick={() => trade(stock._id, "buy")}>Buy</button>
+          <button onClick={() => trade(stock._id, "sell")}>Sell</button>
+        </div>
+      ))}
     </div>
   );
 }
