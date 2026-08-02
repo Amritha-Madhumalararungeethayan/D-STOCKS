@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"name": "dtube-frontend",
+			"path": ".."
+		},
+		{
+			"path": "../../../Delta-Hackathon/Frontend"
+		}
+	],
+	"settings": {}
+}
