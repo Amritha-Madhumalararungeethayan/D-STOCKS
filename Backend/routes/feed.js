@@ -1,8 +1,9 @@
 import express from "express";
 import Stock from "../model/stock.js";
 const router = express.Router();
+import authmid from "../middlewares/authMiddleware.js"
 
-router.get("/feed", async (req, res) => {
+router.get("/feed", authmid , async (req, res) => {
   try {
     const { sort = "trending" } = req.query;
     let stocks;

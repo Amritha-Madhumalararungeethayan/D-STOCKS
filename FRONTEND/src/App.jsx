@@ -7,8 +7,9 @@ import { BrowserRouter, Routes,Route } from 'react-router-dom'
 import Forgot from './Forgot.jsx'
 import Resetpwd from './reset.jsx'
 import Logout from './Logout.jsx'
-import createChart from "./Charts.jsx"
+import CreateChart from "./Charts.jsx"
 import Feed from "./Feed.jsx"
+import Port from "./Portfolio.jsx"
 function App() {
   return(
     <div className="min-h-screen bg-black-600">
@@ -20,8 +21,9 @@ function App() {
     <Route path ="/register" element={<Register/>}/>
     <Route path ="/reset-password/:token" element={<Resetpwd/>}/>
     <Route path="/logout" element={<Logout/>}/>
-    <Route path="/charts" element={<createchart/>}/>
+    <Route path="/charts" element={<CreateChart/>}/>
     <Route path="/feed" element={<Feed/>}/>
+    <Route path="/portfolio" element={<Port/>}/>
     </Routes>
     </BrowserRouter>
     </div>

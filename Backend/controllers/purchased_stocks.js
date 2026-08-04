@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 import User from '../model/user.js';
 import Stock from '../model/stock.js';
 import Transaction from '../model/transaction.js';
-import PurchasedStock from '../model/purchased_stock.js';
 import { use } from 'react';
 
 const router = express.Router();
@@ -85,7 +84,7 @@ export const addPurchasedStock = async (req, res) => {
 
     res.status(200).json(newPurchasedStock);
   } catch (error) {
-    res.status(404).json({ message: "An error has occurred purchasing stock." });
+    res.status(500).json({ message: error.message });
   }
 }
 
@@ -195,3 +194,15 @@ export const removePurchasedStock = async (req, res) => {
 }
 
 export default router;
+
+import Holding from "../model/hold.js";
+
+export const getPortfolio = async (req, res) => {
+  try {
+    const holdings = await Holding.find({ user: req.userId }).populate("stock");
+    res.status(200).json(holdings);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error fetching portfolio" });
+  }
+};

@@ -21,7 +21,7 @@ function Forgot(){
     else{
     setError('');
     console.log(data);
-    navigate('/allvideos');}
+    }
 };
 
 

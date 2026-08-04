@@ -4,6 +4,8 @@ import authmid from "../middlewares/authMiddleware.js";
 import { getChart } from "../controllers/chart.js";
 import  passport from "passport";
 import "../config/passport-google.js";
+import PurchasedStock from "../model/purchased_stock.js";
+import { getPortfolio } from "../controllers/purchased_stocks.js";
 const router = express.Router();
 
 router.post("/register", register);
@@ -12,6 +14,7 @@ router.post("/logout", logout);
 router.post("/reset-password/:token", resetpwd);
 router.post("/forgot-password", forgotpwd);
 router.get("/chart/:id",getChart);
+router.get("/portfolio", authmid, getPortfolio);
 router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 router.get(
   "/google/callback",

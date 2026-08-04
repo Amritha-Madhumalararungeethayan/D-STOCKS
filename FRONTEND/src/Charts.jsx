@@ -80,23 +80,38 @@ export default function Createcharts() {
   }, [gifData,chartData]);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '40px', padding: '20px' }}>
-      {gifData.map((item, index) => (
-        <div key={item.id} style={{ border: '1px solid #eee', padding: '20px', borderRadius: '8px' }}>
-          <h3>#{index + 1}: {item.title || 'Untitled GIF'}</h3>
-          <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
-            {}
-            <img 
-              src={item.images?.fixed_height_small?.url} 
-              alt={item.title} 
-              style={{ borderRadius: '4px', width: '150px', objectFit: 'cover' }}
-            />
-            <div style={{ position: 'relative', height: '150px', width: '100%' }}>
-              <canvas id={`chart-${index}`}></canvas>
-            </div>
+  <div className="flex flex-col gap-10 p-5 bg-slate-950 min-h-screen text-white">
+
+    {gifData.map((item, index) => (
+
+      <div 
+        key={item.id}
+        className="border border-slate-700 bg-slate-800 p-5 rounded-xl shadow-lg"
+      >
+
+        <h3 className="text-xl font-bold mb-4">
+          #{index + 1}: {item.title || 'Untitled GIF'}
+        </h3>
+
+
+        <div className="flex gap-5 items-center">
+
+          <img 
+            src={item.images?.fixed_height_small?.url} 
+            alt={item.title}
+            className="rounded-lg w-[150px] h-[150px] object-cover"
+          />
+
+
+          <div className="relative h-[150px] w-full">
+            <canvas id={`chart-${index}`}></canvas>
           </div>
+
         </div>
-      ))}
-    </div>
-  );
-}
+
+      </div>
+
+    ))}
+
+  </div>
+)}
